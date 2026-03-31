@@ -14,8 +14,9 @@ class Course{
         cout<<"\nEnetr CourseId:";
         cin>>CourseId;
 
+        cin.ignore();
         cout<<"Enter Coursename:";
-        cin>>Coursename;
+        getline(cin,Coursename);
 
         cout<<"Enter Coursefees:";
         cin>>Coursefees;
@@ -23,8 +24,9 @@ class Course{
         cout<<"Enter Coursejoiningdate:";
         cin>>Coursejoiningdate;
 
+        cin.ignore();
         cout<<"Enter CourseDuration:";
-        cin>>CourseDuration;
+        getline(cin,CourseDuration);
         
     }
 
@@ -38,13 +40,13 @@ class Course{
 };
 
 int main(){
-    Course M[5];
+    Course M[2];
 
-    for(int i=0;i<5;i++){
+    for(int i=0;i<2;i++){
         M[i].getCoursedata();
     }
 
-     for(int i=0;i<5;i++){
+     for(int i=0;i<2;i++){
         cout<<"\n\n--||Course||--"<<i+1<<endl;
         M[i].printCoursedata();
     }
