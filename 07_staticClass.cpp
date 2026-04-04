@@ -36,7 +36,7 @@ class Bankaccount{
 };
 
 int Bankaccount :: totalAccount=0;
-int Bankaccount :: totalBalance=5000;
+int Bankaccount :: totalBalance=0;
 
 
 int main(){
