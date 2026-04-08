@@ -97,15 +97,17 @@ int main(){
                     cout<<"Enter searchNo:";
                     cin>>searchNo;
 
+                    found = false;
+
                     for(i=0;i<Bus::count;i++){
                       if(buses[i].getbusNo() == searchNo){
                         found =true;
                         buses[i].displaybusdata();
+                        break;
                       }
-
-                      else{
-                        cout<<"Bus record not found..";
-                      }
+                    }
+                    if(!found){
+                      cout<<"Bus record not found..";
                     }
                   }
                   break;
