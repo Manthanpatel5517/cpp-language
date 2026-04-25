@@ -1,269 +1,289 @@
 #include <iostream>
 using namespace std;
 
-class Vehicle{
+class Vehicle
+{
 protected:
-    int vehicleID;
-    string manufacturer;
-    string model;
-    int year;
+    int id, year;
+    string company, model;
 
 public:
-    static int totalVehicles;
+    static int total;
 
     Vehicle()
     {
-        vehicleID = 0;
-        manufacturer = "Unknown";
-        model = "Unknown";
+        id = 0;
+        company = "None";
+        model = "None";
         year = 0;
-        totalVehicles++;
+        total++;
     }
 
-    Vehicle(int id, string mfg, string mdl, int yr)
+    Vehicle(int i, string c, string m, int y)
     {
-        vehicleID = id;
-        manufacturer = mfg;
-        model = mdl;
-        year = yr;
-        totalVehicles++;
+        id = i;
+        company = c;
+        model = m;
+        year = y;
+        total++;
     }
 
     virtual void display()
     {
-        cout << "\nID: " << vehicleID;
-        cout << "\nManufacturer: " << manufacturer;
+        cout << "\nID: " << id;
+        cout << "\nCompany: " << company;
         cout << "\nModel: " << model;
         cout << "\nYear: " << year;
     }
 
     int getID()
     {
-        return vehicleID;
+        return id;
     }
 
     virtual ~Vehicle()
     {
-        totalVehicles--;
+        total--;
     }
 };
 
-int Vehicle::totalVehicles = 0;
+int Vehicle::total = 0;
 
-class Car : public Vehicle{
+class Car : public Vehicle
+{
 protected:
-    string fuelType;
+    string fuel;
 
 public:
-    Car(int id, string mfg, string mdl, int yr, string fuel)
-        : Vehicle(id, mfg, mdl, yr)
+    Car(int i, string c, string m, int y, string f)
+        : Vehicle(i, c, m, y)
     {
-        fuelType = fuel;
+        fuel = f;
     }
 
     void display()
     {
         Vehicle::display();
-        cout << "\nFuel Type: " << fuelType;
+        cout << "\nFuel: " << fuel;
     }
 };
 
-class ElectricCar : public Car{
+class ElectricCar : public Car
+{
 protected:
-    int batteryCapacity;
+    int battery;
 
 public:
-    ElectricCar(int id, string mfg, string mdl, int yr, string fuel, int battery)
-        : Car(id, mfg, mdl, yr, fuel)
+    ElectricCar(int i, string c, string m, int y, string f, int b)
+        : Car(i, c, m, y, f)
     {
-        batteryCapacity = battery;
+        battery = b;
     }
 
     void display()
     {
         Car::display();
-        cout << "\nBattery: " << batteryCapacity << " kWh";
+        cout << "\nBattery: " << battery;
     }
 };
 
-class SportsCar : public ElectricCar{
-    int topSpeed;
+class SportsCar : public ElectricCar
+{
+    int speed;
 
 public:
-    SportsCar(int id, string mfg, string mdl, int yr, string fuel, int battery, int speed)
-        : ElectricCar(id, mfg, mdl, yr, fuel, battery)
+    SportsCar(int i, string c, string m, int y, string f, int b, int s)
+        : ElectricCar(i, c, m, y, f, b)
     {
-        topSpeed = speed;
+        speed = s;
     }
 
     void display()
     {
         ElectricCar::display();
-        cout << "\nTop Speed: " << topSpeed << " km/h";
+        cout << "\nSpeed: " << speed;
     }
 };
 
-class Aircraft{
+class Aircraft
+{
 protected:
-    int flightRange;
+    int range;
 
 public:
-    Aircraft(int range)
+    Aircraft(int r)
     {
-        flightRange = range;
+        range = r;
     }
 
-    void showAircraft()
+    void showRange()
     {
-        cout << "\nFlight Range: " << flightRange << " km";
+        cout << "\nRange: " << range;
     }
 };
 
-class FlyingCar : public Car, public Aircraft{
+class FlyingCar : public Car, public Aircraft
+{
 public:
-    FlyingCar(int id, string mfg, string mdl, int yr, string fuel, int range)
-        : Car(id, mfg, mdl, yr, fuel), Aircraft(range) {}
+    FlyingCar(int i, string c, string m, int y, string f, int r)
+        : Car(i, c, m, y, f), Aircraft(r) {}
 
     void display()
     {
         Car::display();
-        showAircraft();
+        showRange();
     }
 };
 
-class Sedan : public Car{
+class Sedan : public Car
+{
 public:
-    Sedan(int id, string mfg, string mdl, int yr, string fuel)
-        : Car(id, mfg, mdl, yr, fuel) {}
+    Sedan(int i, string c, string m, int y, string f)
+        : Car(i, c, m, y, f) {}
 };
 
-class SUV : public Car{
+class SUV : public Car
+{
 public:
-    SUV(int id, string mfg, string mdl, int yr, string fuel)
-        : Car(id, mfg, mdl, yr, fuel) {}
+    SUV(int i, string c, string m, int y, string f)
+        : Car(i, c, m, y, f) {}
 };
 
-class VehicleRegistry{
-    Vehicle *vehicles[50];
+class Registry
+{
+    Vehicle *v[50];
     int count;
 
 public:
-    VehicleRegistry()
+    Registry()
     {
         count = 0;
     }
 
-    void addVehicle(Vehicle *v)
+    void add(Vehicle *obj)
     {
-        if (count < 50)
-        {
-            vehicles[count++] = v;
-            cout << "\nVehicle Added Successfully!";
-        }
+        v[count++] = obj;
+        cout << "\nAdded!";
     }
 
-    void displayAll()
+    void showAll()
     {
         for (int i = 0; i < count; i++)
         {
-            vehicles[i]->display();
-            cout << "\n------------------";
+            cout << "\n------------";
+            v[i]->display();
+            cout << "\n------------";
         }
     }
 
-    void searchByID(int id)
+    void search(int x)
     {
         for (int i = 0; i < count; i++)
         {
-            if (vehicles[i]->getID() == id)
+            if (v[i]->getID() == x)
             {
-                vehicles[i]->display();
+                v[i]->display();
                 return;
             }
         }
-        cout << "\nVehicle Not Found!";
+        cout << "\nNot Found!";
+    }
+
+    ~Registry()
+    {
+        for (int i = 0; i < count; i++)
+            delete v[i];
     }
 };
 
-int main(){
-    
-    VehicleRegistry registry;
-    int choice;
+int main()
+{
+    Registry r;
+    int ch;
 
     do
     {
-        cout << "\n\n1. Add Car";
-        cout << "\n2. Add Electric Car";
-        cout << "\n3. Add Sports Car";
-        cout << "\n4. Add Flying Car";
-        cout << "\n5. View All";
-        cout << "\n6. Search by ID";
-        cout << "\n0. Exit";
+        cout << "\n\n1.Car";
+        cout << "\n2.Electric Car";
+        cout << "\n3.Sports Car";
+        cout << "\n4.Flying Car";
+        cout << "\n5.Sedan";
+        cout << "\n6.SUV";
+        cout << "\n7.Show All";
+        cout << "\n8.Search";
+        cout << "\n9.Total";
+        cout << "\n0.Exit";
 
         cout << "\nEnter Choice: ";
-        cin >> choice;
+        cin >> ch;
 
-        if (choice >= 1 && choice <= 4)
+        if (ch >= 1 && ch <= 6)
         {
             int id, year;
-            string mfg, model, fuel;
+            string c, m, f;
 
-            cout << "Enter ID: ";
+            cout << "ID: ";
             cin >> id;
-
-            cout << "Enter Manufacturer: ";
-            cin >> mfg;
-
-            cout << "Enter Model: ";
-            cin >> model;
-
-            cout << "Enter Year: ";
+            cout << "Company: ";
+            cin >> c;
+            cout << "Model: ";
+            cin >> m;
+            cout << "Year: ";
             cin >> year;
-            
-            cout << "Enter Fuel Type: ";
-            cin >> fuel;
+            cout << "Fuel: ";
+            cin >> f;
 
-            if (choice == 1)
+            if (ch == 1)
+                r.add(new Car(id, c, m, year, f));
+
+            else if (ch == 2)
             {
-                registry.addVehicle(new Car(id, mfg, model, year, fuel));
-            }
-            else if (choice == 2)
-            {
-                int battery;
+                int b;
                 cout << "Battery: ";
-                cin >> battery;
-                registry.addVehicle(new ElectricCar(id, mfg, model, year, fuel, battery));
+                cin >> b;
+                r.add(new ElectricCar(id, c, m, year, f, b));
             }
-            else if (choice == 3)
+
+            else if (ch == 3)
             {
-                int battery, speed;
+                int b, s;
                 cout << "Battery: ";
-                cin >> battery;
-                cout << "Top Speed: ";
-                cin >> speed;
-                registry.addVehicle(new SportsCar(id, mfg, model, year, fuel, battery, speed));
+                cin >> b;
+                cout << "Speed: ";
+                cin >> s;
+                r.add(new SportsCar(id, c, m, year, f, b, s));
             }
-            else if (choice == 4)
+
+            else if (ch == 4)
             {
-                int range;
-                cout << "Flight Range: ";
-                cin >> range;
-                registry.addVehicle(new FlyingCar(id, mfg, model, year, fuel, range));
+                int rg;
+                cout << "Range: ";
+                cin >> rg;
+                r.add(new FlyingCar(id, c, m, year, f, rg));
             }
+
+            else if (ch == 5)
+                r.add(new Sedan(id, c, m, year, f));
+
+            else if (ch == 6)
+                r.add(new SUV(id, c, m, year, f));
         }
-        else if (choice == 5)
+
+        else if (ch == 7)
+            r.showAll();
+
+        else if (ch == 8)
         {
-            registry.displayAll();
-        }
-        else if (choice == 6)
-        {
-            int id;
+            int x;
             cout << "Enter ID: ";
-            cin >> id;
-            registry.searchByID(id);
+            cin >> x;
+            r.search(x);
         }
 
-    } while (choice != 0);
+        else if (ch == 9)
+            cout << "\nTotal Vehicles: " << Vehicle::total;
+
+    } while (ch != 0);
 
     return 0;
 }
